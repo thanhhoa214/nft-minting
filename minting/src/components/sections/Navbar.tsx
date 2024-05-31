@@ -1,10 +1,10 @@
 import { cn } from "@/lib/utils";
-import { Home, PencilRulerIcon } from "lucide-react";
+import { Home, Palette, PencilRulerIcon } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 
 const navItems = [
   { icon: Home, label: "Home", route: "/" },
-  // { icon: Palette, label: "Listing", route: "/nfts" },
+  { icon: Palette, label: "Listing", route: "/nfts" },
   { icon: PencilRulerIcon, label: "Mint", route: "/mint" },
 ];
 

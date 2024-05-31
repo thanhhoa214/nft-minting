@@ -6,6 +6,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import HomePage from "./pages/HomePage.tsx";
 import ErrorPage from "./pages/404Page.tsx";
 import MintPage from "./pages/MintPage.tsx";
+import AllNftPage from "./pages/AllNftPage.tsx";
 
 const router = createBrowserRouter([
   {
@@ -20,6 +21,14 @@ const router = createBrowserRouter([
       {
         path: "mint",
         element: <MintPage />,
+      },
+      {
+        path: "nfts",
+        element: <AllNftPage />,
+      },
+      {
+        path: "nfts/:address",
+        element: <AllNftPage />,
       },
     ],
   },

@@ -1,4 +1,5 @@
 import AllNftListing from "@/components/sections/AllNftListing";
+import AllOwners from "@/components/sections/AllOwners";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Link } from "react-router-dom";
@@ -31,6 +32,7 @@ export default function HomePage() {
         </CardContent>
       </Card>
       <AllNftListing />
+      <AllOwners />
     </>
   );
 }

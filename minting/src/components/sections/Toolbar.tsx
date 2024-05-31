@@ -14,6 +14,8 @@ export default function Toolbar() {
       />
 
       <div className="flex items-center gap-2">
+        <Button>My Portfolio</Button>
+
         <Button size={"icon"} variant={"ghost"}>
           <Settings />
         </Button>
