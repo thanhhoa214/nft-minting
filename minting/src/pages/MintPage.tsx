@@ -133,8 +133,11 @@ export default function MintPage() {
       <h1 className="text-4xl font-bold mb-8">Minting NFT</h1>
 
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="flex gap-12">
-          <div className="space-y-5 w-1/2">
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="flex flex-col gap-12 md:flex-row"
+        >
+          <div className="space-y-5 md:w-1/2">
             <h2 className="text-2xl font-semibold mb-4">Metadata</h2>
 
             <FormField
@@ -260,7 +263,7 @@ export default function MintPage() {
               </Button>
             </FormItem>
           </div>
-          <div className="space-y-5 w-1/2">
+          <div className="space-y-5 md:w-1/2">
             <h2 className="text-2xl font-semibold mb-4">
               Make your NFT more accessible
             </h2>

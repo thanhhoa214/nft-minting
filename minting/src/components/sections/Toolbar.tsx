@@ -1,20 +1,30 @@
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
-import { Settings } from "lucide-react";
-import { ConnectButton, darkTheme } from "thirdweb/react";
+import { Images, Settings } from "lucide-react";
+import { ConnectButton, darkTheme, useActiveAccount } from "thirdweb/react";
 import { thirdwebClient } from "@/lib/thirdweb";
 import ThemeToggler from "./ThemeToggler";
+import { Link } from "react-router-dom";
 
 export default function Toolbar() {
+  const activeAccount = useActiveAccount();
+
   return (
-    <div className="flex justify-between">
+    <div className="flex justify-between items-center gap-4">
       <Input
         placeholder="Search NFTs, address, owner, ..."
-        className="w-full max-w-sm"
+        className="w-full max-w-sm hidden md:block"
       />
 
-      <div className="flex items-center gap-2">
-        <Button>My Portfolio</Button>
+      <div className="w-full md:w-fit flex justify-between items-center gap-2">
+        {activeAccount && (
+          <Link to={"/nfts/" + activeAccount.address} className="mr-auto">
+            <Button className="hidden md:block">My Portfolio</Button>
+            <Button size={"icon"} className="md:hidden">
+              <Images />
+            </Button>
+          </Link>
+        )}
 
         <Button size={"icon"} variant={"ghost"}>
           <Settings />

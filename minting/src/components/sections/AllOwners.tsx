@@ -43,7 +43,7 @@ export default function AllOwners() {
         {loading
           ? Array.from({ length: 4 }, (_, index) => (
               <CarouselItem
-                className="basis-1/2 md:basis-1/3 lg:basis-1/4 xl:basis-1/5 2xl:basis-1/6"
+                className="md:basis-1/3 lg:basis-1/4 xl:basis-1/5 2xl:basis-1/6"
                 key={index}
               >
                 <div className=" border border-solid rounded-lg p-2 pb-3">
@@ -58,7 +58,7 @@ export default function AllOwners() {
           : owners.map((owner) => (
               <CarouselItem
                 key={owner.owner}
-                className="basis-1/2 md:basis-1/3 lg:basis-1/4 xl:basis-1/5 2xl:basis-1/6 rounded-lg"
+                className="md:basis-1/3 lg:basis-1/4 xl:basis-1/5 2xl:basis-1/6 rounded-lg"
               >
                 <div className=" border border-solid rounded-lg p-2 pb-3">
                   <p className="p-2 text-right">

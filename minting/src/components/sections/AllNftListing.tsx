@@ -19,7 +19,9 @@ export default function AllNftListing() {
   return (
     <Carousel>
       <header className="flex justify-between items-center pl-2 mb-2">
-        <h2 className="text-xl font-semibold">Top NFTs minted today</h2>
+        <h2 className="text-xl font-semibold">
+          Top NFTs <span className="hidden md:inline">minted today</span>
+        </h2>
         <div className="flex items-center gap-2">
           <CarouselPrevious className="relative left-0 top-0 translate-y-0" />
           <CarouselNext className="relative left-0 top-0 translate-y-0" />

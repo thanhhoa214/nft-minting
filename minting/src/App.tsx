@@ -8,7 +8,7 @@ import { Toaster } from "@/components/ui/toaster";
 function App() {
   return (
     <ThirdwebProvider>
-      <div className="min-h-[100vh] flex">
+      <div className="min-h-[100vh] flex flex-col-reverse pb-16 md:flex-row md:pb-0">
         <Navbar />
         <main className="p-4 border-l border-primary/20 flex-grow space-y-8">
           <Toolbar />

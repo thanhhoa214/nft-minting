@@ -12,50 +12,37 @@ export default function Navbar() {
   const location = useLocation();
 
   return (
-    <div className="flex flex-col pt-5 w-24">
-      <div className="flex flex-col items-center flex-shrink-0 px-2">
+    <div className="flex flex-col pt-5 md:w-24">
+      <Link
+        to={"/"}
+        className="hidden md:flex flex-col items-center flex-shrink-0 px-2"
+      >
         <img src="/logo.svg" />
         <strong>Phenon</strong>
-      </div>
+      </Link>
 
-      <div className="px-4 my-4">
+      <div className="hidden md:block px-4 my-4">
         <hr className="border-gray-200" />
       </div>
 
-      <div className="flex flex-col flex-1 px-3">
-        <nav className="flex-1">
-          <ul className="space-y-4">
-            {navItems.map((item) => (
-              <li key={item.route}>
-                <Link
-                  to={item.route}
-                  className={cn(
-                    "flex flex-col items-center gap-1 px-4 py-2.5 text-xs font-medium transition-all duration-200 rounded-lg",
-                    location.pathname === item.route && "bg-primary text-white"
-                  )}
-                >
-                  <item.icon />
-                  {item.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </nav>
-
-        <div className="pb-4 mt-20">
-          <button
-            type="button"
-            className="flex flex-col items-center justify-between w-full p-2 text-sm font-medium text-gray-900 transition-all duration-200 rounded-lg hover:bg-gray-100"
-          >
-            <img
-              className="flex-shrink-0 object-cover w-10 h-10 rounded-full"
-              src="https://landingfoliocom.imgix.net/store/collection/clarity-dashboard/images/vertical-menu/2/avatar-male.png"
-              alt=""
-            />
-            Jacob
-          </button>
-        </div>
-      </div>
+      <nav className="flex-1 p-1 fixed bottom-0 left-0 w-full bg-primary/30 z-20 rounded-t-lg md:static md:p-3 backdrop-filter backdrop-blur-md">
+        <ul className="flex justify-center md:flex-col md:space-y-4">
+          {navItems.map((item) => (
+            <li key={item.route}>
+              <Link
+                to={item.route}
+                className={cn(
+                  "flex flex-col items-center gap-1 px-4 py-2.5 text-xs font-medium transition-all duration-200 rounded-lg",
+                  location.pathname === item.route && "bg-primary text-white"
+                )}
+              >
+                <item.icon />
+                {item.label}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </nav>
     </div>
   );
 }
