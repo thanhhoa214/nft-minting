@@ -12,9 +12,18 @@ import { shortenAddress } from "thirdweb/utils";
 import { MediaRenderer } from "thirdweb/react";
 import { Skeleton } from "../ui/skeleton";
 import { useNfts } from "@/hooks/useNfts";
+import { useState } from "react";
+import { NFT } from "thirdweb";
+import { Drawer, DrawerContent, DrawerHeader } from "@/components/ui/drawer";
+import { Sheet, SheetContent, SheetHeader } from "@/components/ui/sheet";
+import NftDetail from "./NftDetail";
+import { useMediaQuery } from "usehooks-ts";
 
 export default function AllNftListing() {
   const { loading, nfts } = useNfts();
+  const [detailOpened, setDetailOpened] = useState(false);
+  const [selectedNft, setSelectedNft] = useState<NFT>();
+  const isDesktop = useMediaQuery("(min-width: 768px)");
 
   return (
     <Carousel>
@@ -54,6 +63,10 @@ export default function AllNftListing() {
               <CarouselItem
                 key={nft.id}
                 className="basis-1/2 md:basis-1/3 lg:basis-1/4 xl:basis-1/5 2xl:basis-1/6 rounded-lg cursor-pointer"
+                onClick={() => {
+                  setSelectedNft(nft);
+                  setDetailOpened(true);
+                }}
               >
                 <div className="max-w-60">
                   <MediaRenderer
@@ -68,7 +81,9 @@ export default function AllNftListing() {
                   />
                   <div className="pt-2 space-y-2">
                     <div>
-                      <h3 className="font-semibold">{nft.metadata.name}</h3>
+                      <h3 className="font-semibold">
+                        {nft.metadata.name} #{nft.id.toString()}
+                      </h3>
                       <p className="text-sm">
                         by {nft.owner ? shortenAddress(nft.owner) : "unknown"}
                       </p>
@@ -85,6 +100,23 @@ export default function AllNftListing() {
               </CarouselItem>
             ))}
       </CarouselContent>
+      {isDesktop ? (
+        <Sheet open={detailOpened} onOpenChange={setDetailOpened}>
+          <SheetContent className="sm:max-w-lg">
+            <SheetHeader>
+              {selectedNft && <NftDetail nft={selectedNft} className="mt-8" />}
+            </SheetHeader>
+          </SheetContent>
+        </Sheet>
+      ) : (
+        <Drawer open={detailOpened} onOpenChange={setDetailOpened}>
+          <DrawerContent>
+            <DrawerHeader>
+              {selectedNft && <NftDetail nft={selectedNft} />}
+            </DrawerHeader>
+          </DrawerContent>
+        </Drawer>
+      )}
     </Carousel>
   );
 }

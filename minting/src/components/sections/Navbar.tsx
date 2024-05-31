@@ -22,7 +22,7 @@ export default function Navbar() {
       </Link>
 
       <div className="hidden md:block px-4 my-4">
-        <hr className="border-gray-200" />
+        <hr className="border-primary/400" />
       </div>
 
       <nav className="flex-1 p-1 fixed bottom-0 left-0 w-full bg-primary/30 z-20 rounded-t-lg md:static md:p-3 backdrop-filter backdrop-blur-md md:bg-transparent">

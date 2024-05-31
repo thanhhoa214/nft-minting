@@ -1,4 +1,3 @@
-import "./App.css";
 import { ThirdwebProvider } from "thirdweb/react";
 import Navbar from "./components/sections/Navbar";
 import Toolbar from "./components/sections/Toolbar";

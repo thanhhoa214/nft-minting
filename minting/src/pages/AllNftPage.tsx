@@ -1,8 +1,12 @@
-import { thirdwebClient } from "@/lib/thirdweb";
+import { contract, thirdwebClient } from "@/lib/thirdweb";
 import { shortenAddress } from "thirdweb/utils";
-import { MediaRenderer } from "thirdweb/react";
+import {
+  MediaRenderer,
+  useActiveAccount,
+  useSendTransaction,
+} from "thirdweb/react";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import {
   Select,
   SelectContent,
@@ -13,16 +17,116 @@ import {
 import { useOwners } from "@/hooks/useOwners";
 import { useNfts } from "@/hooks/useNfts";
 import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { burn, transferFrom } from "thirdweb/extensions/erc721";
+import { Gift, Trash2 } from "lucide-react";
+import { NFT, waitForReceipt } from "thirdweb";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
+import { useToast } from "@/components/ui/use-toast";
+import { Input } from "@/components/ui/input";
+import { sepolia } from "thirdweb/chains";
 
 export default function AllNftPage() {
-  const { loading: nftLoading, nfts } = useNfts();
+  const { loading: nftLoading, nfts, refreshNfts } = useNfts();
   const { loading: ownerLoading, owners } = useOwners();
+  const activeAccount = useActiveAccount();
+  const { toast } = useToast();
   const address = useParams().address;
+  const [showTransferAlert, setShowTransferAlert] = useState(false);
+  const [showBurnAlert, setShowBurnAlert] = useState(false);
+  const [destinationAddress, setDestinationAddress] = useState("");
+  const [selectedNft, setSelectedNft] = useState<NFT>();
   const [selectedOwner, setSelectedOwner] = useState<string>(address || "");
+  const { mutateAsync: sendTransaction } = useSendTransaction();
 
   const filteredNfts = nfts.filter((nft) =>
     selectedOwner ? nft.owner === selectedOwner : true
   );
+
+  const transferNft = async () => {
+    if (!selectedNft || !destinationAddress) return;
+    if (!selectedNft.owner) return;
+    try {
+      const preparedTx = transferFrom({
+        contract,
+        from: selectedNft.owner,
+        to: destinationAddress,
+        tokenId: selectedNft.id,
+      });
+      const { transactionHash } = await sendTransaction(preparedTx);
+      await waitForReceipt({
+        client: thirdwebClient,
+        chain: sepolia,
+        transactionHash,
+      });
+      toast({
+        description: (
+          <p>
+            Transaction has been confirmed. NFT has been transfered to{" "}
+            <Link
+              to={`https://sepolia.etherscan.io/address/${destinationAddress}`}
+            >
+              {shortenAddress(destinationAddress)}
+            </Link>{" "}
+            successfully. Check the transaction on{" "}
+            <Link
+              to={`https://sepolia.etherscan.io/tx/${transactionHash}`}
+              className="font-semibold"
+            >
+              Etherscan
+            </Link>
+            .
+          </p>
+        ),
+        variant: "success",
+      });
+      refreshNfts();
+    } catch (error) {
+      toast({
+        description: (
+          <p>
+            Transaction failed. Please check if the address is valid and try
+            again.
+          </p>
+        ),
+        variant: "destructive",
+      });
+    }
+  };
+
+  const burnNft = async () => {
+    if (!selectedNft) return;
+    const preparedTx = burn({ contract, tokenId: selectedNft.id });
+    const { transactionHash } = await sendTransaction(preparedTx);
+    await waitForReceipt({
+      client: thirdwebClient,
+      chain: sepolia,
+      transactionHash,
+    });
+    toast({
+      description: (
+        <p>
+          Transaction has been confirmed. NFT burned successfully. Check the
+          transaction on{" "}
+          <Link to={`https://sepolia.etherscan.io/tx/${transactionHash}`}>
+            Etherscan
+          </Link>
+          .
+        </p>
+      ),
+      variant: "success",
+    });
+    refreshNfts();
+  };
 
   return (
     <div>
@@ -94,10 +198,92 @@ export default function AllNftPage() {
                         : nft.metadata.description}
                     </p>
                   )}
+                  {activeAccount?.address === nft.owner && (
+                    <div className="flex justify-end gap-1">
+                      <Button
+                        size={"sm"}
+                        className="gap-1"
+                        onClick={() => {
+                          setShowTransferAlert(true);
+                          setSelectedNft(nft);
+                        }}
+                      >
+                        <Gift size={20} />
+                        Gift a friend
+                      </Button>
+                      <Button
+                        size={"sm"}
+                        variant={"destructiveGhost"}
+                        onClick={() => {
+                          setShowBurnAlert(true);
+                          setSelectedNft(nft);
+                        }}
+                        className="gap-1"
+                      >
+                        <Trash2 size={20} /> Burn
+                      </Button>
+                    </div>
+                  )}
                 </div>
               </li>
             ))}
       </ul>
+
+      <AlertDialog open={showBurnAlert} onOpenChange={setShowBurnAlert}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+            <AlertDialogDescription>
+              This action cannot be undone. You will be unable to access the NFT
+              forever.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction onClick={() => burnNft()}>
+              Continue
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
+      <AlertDialog open={showTransferAlert} onOpenChange={setShowTransferAlert}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            {selectedNft && (
+              <MediaRenderer
+                client={thirdwebClient}
+                src={selectedNft.metadata.image}
+                className="!w-full !h-40 aspect-square object-cover rounded-lg"
+                style={{
+                  backgroundColor: selectedNft.metadata.background_color
+                    ? selectedNft.metadata.background_color
+                    : "#00000070",
+                }}
+              />
+            )}
+            <AlertDialogTitle>
+              You are going to transfer this NFT to this address
+            </AlertDialogTitle>
+            <AlertDialogDescription>
+              This action cannot be undone. You will be unable to regain the
+              authority of the NFT.
+            </AlertDialogDescription>
+            <Input
+              placeholder="Destination address, it must be an ETH address"
+              className="mt-4"
+              value={destinationAddress}
+              onChange={(e) => setDestinationAddress(e.target.value)}
+            />
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction onClick={() => transferNft()}>
+              Transfer
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }

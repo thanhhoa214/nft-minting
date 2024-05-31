@@ -6,13 +6,14 @@ import { getNFTs } from "thirdweb/extensions/erc721";
 export function useNfts() {
   const [loading, setLoading] = useState(false);
   const [nfts, setNfts] = useState<PromiseType<ReturnType<typeof getNFTs>>>([]);
-
-  useEffect(() => {
+  const fetchNfts = () => {
     setLoading(true);
     getNFTs({ contract, includeOwners: true })
       .then(setNfts)
       .finally(() => setLoading(false));
-  }, []);
+  };
 
-  return { loading, nfts };
+  useEffect(() => fetchNfts(), []);
+
+  return { loading, nfts, refreshNfts: fetchNfts };
 }
