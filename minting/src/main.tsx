@@ -2,25 +2,24 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App.tsx";
 import "./index.css";
-import { createBrowserRouter, RouterProvider, Link } from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import HomePage from "./pages/HomePage.tsx";
+import ErrorPage from "./pages/404Page.tsx";
+import MintPage from "./pages/MintPage.tsx";
 
 const router = createBrowserRouter([
   {
-    path: "",
+    path: "/",
     element: <App />,
+    errorElement: <ErrorPage />,
     children: [
       {
-        path: "/",
-        element: (
-          <div>
-            <h1>Hello World</h1>
-            <Link to="about">About Us</Link>
-          </div>
-        ),
+        path: "",
+        element: <HomePage />,
       },
       {
-        path: "about",
-        element: <div>About</div>,
+        path: "mint",
+        element: <MintPage />,
       },
     ],
   },
