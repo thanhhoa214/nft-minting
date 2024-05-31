@@ -1,24 +1,17 @@
 import "./App.css";
-import { ThirdwebProvider, ConnectButton } from "thirdweb/react";
-import { thirdwebClient } from "./lib/thirdweb";
+import { ThirdwebProvider } from "thirdweb/react";
+import Navbar from "./components/sections/Navbar";
+import Toolbar from "./components/sections/Toolbar";
 
 function App() {
   return (
     <ThirdwebProvider>
-      <main className="p-4 pb-10 min-h-[100vh] flex items-center justify-center container max-w-screen-lg mx-auto">
-        <div className="py-20">
-
-          <div className="flex justify-center mb-20">
-            <ConnectButton
-              client={thirdwebClient}
-              appMetadata={{
-                name: "Example app",
-                url: "https://example.com",
-              }}
-            />
-          </div>
-        </div>
-      </main>
+      <div className="min-h-[100vh] flex">
+        <Navbar />
+        <main className="p-4 border-l flex-grow">
+          <Toolbar />
+        </main>
+      </div>
     </ThirdwebProvider>
   );
 }
