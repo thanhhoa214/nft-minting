@@ -1,7 +1,7 @@
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { Settings } from "lucide-react";
-import { ConnectButton } from "thirdweb/react";
+import { ConnectButton, darkTheme } from "thirdweb/react";
 import { thirdwebClient } from "@/lib/thirdweb";
 import ThemeToggler from "./ThemeToggler";
 
@@ -21,6 +21,9 @@ export default function Toolbar() {
 
         <ConnectButton
           client={thirdwebClient}
+          theme={darkTheme({
+            colors: { accentText: "#a22fee", accentButtonBg: "#a22fee" },
+          })}
           connectButton={{
             className:
               "!bg-gradient-to-br from-purple-500 to-blue-500 !text-white ml-2",

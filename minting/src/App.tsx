@@ -9,7 +9,7 @@ function App() {
     <ThirdwebProvider>
       <div className="min-h-[100vh] flex">
         <Navbar />
-        <main className="p-4 border-l flex-grow space-y-8">
+        <main className="p-4 border-l border-primary/20 flex-grow space-y-8">
           <Toolbar />
           <Outlet />
         </main>

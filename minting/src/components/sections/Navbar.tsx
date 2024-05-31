@@ -1,10 +1,10 @@
 import { cn } from "@/lib/utils";
-import { Home, Palette, PencilRulerIcon } from "lucide-react";
-import { useLocation } from "react-router-dom";
+import { Home, PencilRulerIcon } from "lucide-react";
+import { Link, useLocation } from "react-router-dom";
 
 const navItems = [
   { icon: Home, label: "Home", route: "/" },
-  { icon: Palette, label: "Listing", route: "/nfts" },
+  // { icon: Palette, label: "Listing", route: "/nfts" },
   { icon: PencilRulerIcon, label: "Mint", route: "/mint" },
 ];
 
@@ -23,12 +23,12 @@ export default function Navbar() {
       </div>
 
       <div className="flex flex-col flex-1 px-3">
-        <nav className="flex-1 space-y-2">
-          <ul>
+        <nav className="flex-1">
+          <ul className="space-y-4">
             {navItems.map((item) => (
               <li key={item.route}>
-                <a
-                  href="#"
+                <Link
+                  to={item.route}
                   className={cn(
                     "flex flex-col items-center gap-1 px-4 py-2.5 text-xs font-medium transition-all duration-200 rounded-lg",
                     location.pathname === item.route && "bg-primary text-white"
@@ -36,7 +36,7 @@ export default function Navbar() {
                 >
                   <item.icon />
                   {item.label}
-                </a>
+                </Link>
               </li>
             ))}
           </ul>
