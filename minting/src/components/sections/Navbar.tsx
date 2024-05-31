@@ -25,7 +25,7 @@ export default function Navbar() {
         <hr className="border-gray-200" />
       </div>
 
-      <nav className="flex-1 p-1 fixed bottom-0 left-0 w-full bg-primary/30 z-20 rounded-t-lg md:static md:p-3 backdrop-filter backdrop-blur-md">
+      <nav className="flex-1 p-1 fixed bottom-0 left-0 w-full bg-primary/30 z-20 rounded-t-lg md:static md:p-3 backdrop-filter backdrop-blur-md md:bg-transparent">
         <ul className="flex justify-center md:flex-col md:space-y-4">
           {navItems.map((item) => (
             <li key={item.route}>
@@ -33,7 +33,9 @@ export default function Navbar() {
                 to={item.route}
                 className={cn(
                   "flex flex-col items-center gap-1 px-4 py-2.5 text-xs font-medium transition-all duration-200 rounded-lg",
-                  location.pathname === item.route && "bg-primary text-white"
+                  item.route !== "/" &&
+                    location.pathname.includes(item.route) &&
+                    "bg-primary text-white"
                 )}
               >
                 <item.icon />
