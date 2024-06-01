@@ -1,5 +1,9 @@
 import { useEffect, useState } from "react";
-import { useActiveAccount, useSendTransaction } from "thirdweb/react";
+import {
+  useActiveAccount,
+  useConnectModal,
+  useSendTransaction,
+} from "thirdweb/react";
 import { mintTo } from "thirdweb/extensions/erc721";
 import { upload } from "thirdweb/storage";
 import { contract, thirdwebClient } from "@/lib/thirdweb";
@@ -27,6 +31,7 @@ import {
   PlusCircle,
   ReceiptText,
   UploadCloud,
+  Wallet2,
   X,
 } from "lucide-react";
 import { useCountdown, useStep, useWindowSize } from "usehooks-ts";
@@ -44,6 +49,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { waitForReceipt } from "thirdweb";
 import { cn } from "@/lib/utils";
 import { TransactionReceipt } from "thirdweb/transaction";
+import { sepoliaEtherscanUrl } from "@/lib/constants";
 
 const formSchema = z.object({
   name: z.string().min(2, { message: "must be at least 2 characters." }),
@@ -63,6 +69,7 @@ export default function MintPage() {
   const navigate = useNavigate();
   const { width, height } = useWindowSize();
   const activeAccount = useActiveAccount();
+  const { connect, isConnecting } = useConnectModal();
   const [file, setFile] = useState<File | null>(null);
   const [fileRequired, setFileRequired] = useState(false);
   const [mintStatus, setMintStatus] = useState<"idle" | "pending" | "finished">(
@@ -101,6 +108,10 @@ export default function MintPage() {
     }
   }, [mintStatus, navigate, startCountdown]);
 
+  useEffect(() => {
+    !activeAccount && connect({ client: thirdwebClient });
+  }, [activeAccount, connect]);
+
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     if (!activeAccount) return;
     if (!file) {
@@ -130,7 +141,7 @@ export default function MintPage() {
   };
   return (
     <div className="py-4">
-      <h1 className="text-4xl font-bold mb-8">Minting NFT</h1>
+      <h1 className="text-2xl md:text-4xl font-bold mb-8">Minting NFT</h1>
 
       <Form {...form}>
         <form
@@ -322,9 +333,21 @@ export default function MintPage() {
               )}
             />
 
-            <Button type="submit" size={"lg"} className="gap-1 w-full">
-              Mint NFT
-            </Button>
+            {activeAccount ? (
+              <Button type="submit" size={"lg"} className="gap-1 w-full">
+                Mint NFT
+              </Button>
+            ) : (
+              <Button
+                type="button"
+                size={"lg"}
+                className="gap-2 w-full"
+                onClick={() => connect({ client: thirdwebClient })}
+              >
+                <Wallet2 />{" "}
+                {isConnecting ? "Connecting..." : "Connect Wallet to Mint"}
+              </Button>
+            )}
           </div>
         </form>
       </Form>
@@ -395,7 +418,7 @@ export default function MintPage() {
           <AlertDialogFooter>
             <AlertDialogAction asChild>
               <Link
-                to={`https://sepolia.etherscan.io/tx/${txReceipt?.transactionHash}`}
+                to={`${sepoliaEtherscanUrl}/tx/${txReceipt?.transactionHash}`}
                 target="_blank"
               >
                 <Button>View transaction</Button>

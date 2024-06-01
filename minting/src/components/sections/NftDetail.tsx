@@ -5,6 +5,7 @@ import { MediaRenderer } from "thirdweb/react";
 import { cn } from "@/lib/utils";
 import { Button } from "../ui/button";
 import { Link } from "react-router-dom";
+import { sepoliaEtherscanUrl } from "@/lib/constants";
 
 interface NftProperty {
   trait_type: string;
@@ -41,7 +42,7 @@ export default function NftDetail({
           <p>{nft.owner ? shortenAddress(nft.owner) : "unknown"}</p>
         </div>
 
-        <Link to={`https://sepolia.etherscan.io/address/${nft.owner}`}>
+        <Link to={`${sepoliaEtherscanUrl}/address/${nft.owner}`}>
           <Button>View contract</Button>
         </Link>
       </div>

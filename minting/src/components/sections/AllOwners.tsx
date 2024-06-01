@@ -12,6 +12,7 @@ import { shortenAddress } from "thirdweb/utils";
 import { useCopyToClipboard } from "usehooks-ts";
 import { useToast } from "../ui/use-toast";
 import { useOwners } from "@/hooks/useOwners";
+import { Link } from "react-router-dom";
 
 export default function AllOwners() {
   const { toast } = useToast();
@@ -65,7 +66,9 @@ export default function AllOwners() {
                     {shortenAddress(owner.owner, 9)}
                   </p>
                   <div className="flex justify-end items-center gap-2">
-                    <Button size={"sm"}>View NFTs</Button>
+                    <Link to={`/nfts/${owner.owner}`}>
+                      <Button size={"sm"}>View NFTs</Button>
+                    </Link>
                     <Button
                       variant="outline"
                       size={"icon"}

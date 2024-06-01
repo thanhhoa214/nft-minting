@@ -26,7 +26,7 @@ export default function Toolbar() {
           </Link>
         )}
 
-        <Button size={"icon"} variant={"ghost"}>
+        <Button size={"icon"} variant={"ghost"} className="ml-auto">
           <Settings />
         </Button>
         <ThemeToggler />
@@ -42,7 +42,9 @@ export default function Toolbar() {
           }}
           appMetadata={{
             name: "Phenon",
-            url: "https://example.com",
+            url: "https://phenon.vercel.app",
+            description: "Phenon is a NFT minting platform.",
+            logoUrl: "https://phenon.vercel.app/logo.svg",
           }}
         />
       </div>

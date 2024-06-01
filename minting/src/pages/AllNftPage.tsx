@@ -34,6 +34,7 @@ import {
 import { useToast } from "@/components/ui/use-toast";
 import { Input } from "@/components/ui/input";
 import { sepolia } from "thirdweb/chains";
+import { sepoliaEtherscanUrl } from "@/lib/constants";
 
 export default function AllNftPage() {
   const { loading: nftLoading, nfts, refreshNfts } = useNfts();
@@ -45,11 +46,11 @@ export default function AllNftPage() {
   const [showBurnAlert, setShowBurnAlert] = useState(false);
   const [destinationAddress, setDestinationAddress] = useState("");
   const [selectedNft, setSelectedNft] = useState<NFT>();
-  const [selectedOwner, setSelectedOwner] = useState<string>(address || "");
+  const [selectedOwner, setSelectedOwner] = useState<string>(address || "all");
   const { mutateAsync: sendTransaction } = useSendTransaction();
 
   const filteredNfts = nfts.filter((nft) =>
-    selectedOwner ? nft.owner === selectedOwner : true
+    selectedOwner === "all" ? true : nft.owner === selectedOwner
   );
 
   const transferNft = async () => {
@@ -72,14 +73,12 @@ export default function AllNftPage() {
         description: (
           <p>
             Transaction has been confirmed. NFT has been transfered to{" "}
-            <Link
-              to={`https://sepolia.etherscan.io/address/${destinationAddress}`}
-            >
+            <Link to={`${sepoliaEtherscanUrl}/address/${destinationAddress}`}>
               {shortenAddress(destinationAddress)}
             </Link>{" "}
             successfully. Check the transaction on{" "}
             <Link
-              to={`https://sepolia.etherscan.io/tx/${transactionHash}`}
+              to={`${sepoliaEtherscanUrl}/tx/${transactionHash}`}
               className="font-semibold"
             >
               Etherscan
@@ -117,7 +116,7 @@ export default function AllNftPage() {
         <p>
           Transaction has been confirmed. NFT burned successfully. Check the
           transaction on{" "}
-          <Link to={`https://sepolia.etherscan.io/tx/${transactionHash}`}>
+          <Link to={`${sepoliaEtherscanUrl}/tx/${transactionHash}`}>
             Etherscan
           </Link>
           .
@@ -131,7 +130,7 @@ export default function AllNftPage() {
   return (
     <div>
       <header className="flex justify-between items-center mb-8">
-        <h1 className="text-4xl font-semibold">
+        <h1 className="text-2xl md:text-4xl font-bold">
           All NFTs{" "}
           {!nftLoading && (
             <span className="text-base text-foreground/60">
@@ -147,6 +146,7 @@ export default function AllNftPage() {
                 <SelectValue placeholder="Select owner" />
               </SelectTrigger>
               <SelectContent>
+                <SelectItem value={"all"}>All owners</SelectItem>
                 {owners.map((owner) => (
                   <SelectItem key={owner.owner} value={owner.owner}>
                     {shortenAddress(owner.owner)}
@@ -192,7 +192,7 @@ export default function AllNftPage() {
                     </p>
                   </div>
                   {nft.metadata.description && (
-                    <p className="text-sm text-muted-foreground">
+                    <p className="text-sm text-muted-foreground h-10">
                       {nft.metadata.description.length > 50
                         ? nft.metadata.description.slice(0, 50) + "..."
                         : nft.metadata.description}

@@ -33,8 +33,9 @@ export default function Navbar() {
                 to={item.route}
                 className={cn(
                   "flex flex-col items-center gap-1 px-4 py-2.5 text-xs font-medium transition-all duration-200 rounded-lg",
-                  item.route !== "/" &&
-                    location.pathname.includes(item.route) &&
+                  ((location.pathname === item.route && item.route === "/") ||
+                    (item.route !== "/" &&
+                      location.pathname.includes(item.route))) &&
                     "bg-primary text-white"
                 )}
               >
