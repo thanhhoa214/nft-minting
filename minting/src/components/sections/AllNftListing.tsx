@@ -111,7 +111,7 @@ export default function AllNftListing() {
       ) : (
         <Drawer open={detailOpened} onOpenChange={setDetailOpened}>
           <DrawerContent>
-            <DrawerHeader>
+            <DrawerHeader className="max-h-[70vh] overflow-auto text-left">
               {selectedNft && <NftDetail nft={selectedNft} />}
             </DrawerHeader>
           </DrawerContent>

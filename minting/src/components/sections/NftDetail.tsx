@@ -19,7 +19,6 @@ export default function NftDetail({
   nft: NFT;
   className?: string;
 }) {
-  console.log(nft);
   const properties = nft.metadata.properties as unknown as NftProperty[];
 
   return (
@@ -34,7 +33,7 @@ export default function NftDetail({
             : "#00000070",
         }}
       />
-      <div className="pt-2 space-y-2">
+      <div className="flex justify-between items-start pt-2 space-y-2">
         <div>
           <h3 className="text-2xl font-bold">
             {nft.metadata.name} #{nft.id.toString()}
@@ -43,14 +42,16 @@ export default function NftDetail({
         </div>
 
         <Link to={`${sepoliaEtherscanUrl}/address/${nft.owner}`}>
-          <Button>View contract</Button>
+          <Button size={"sm"}>View contract</Button>
         </Link>
       </div>
 
       {nft.metadata.description && (
         <div>
           <h2 className="text-lg font-medium">Description</h2>
-          <p className="text-muted-foreground">{nft.metadata.description}</p>
+          <p className="text-muted-foreground break-all">
+            {nft.metadata.description}
+          </p>
         </div>
       )}
 
@@ -71,7 +72,7 @@ export default function NftDetail({
         <div>
           <h2 className="text-lg font-medium mb-1">Background Color</h2>
           <div
-            className="w-fit py-2 px-4 rounded-lg text-primary"
+            className="w-fit py-2 px-4 rounded-lg text-primary font-semibold"
             style={{ backgroundColor: nft.metadata.background_color }}
           >
             {nft.metadata.background_color}
@@ -82,7 +83,12 @@ export default function NftDetail({
       {nft.metadata.external_url && (
         <div>
           <h2 className="text-lg font-medium">External URL</h2>
-          <a href={nft.metadata.external_url} target="_blank" rel="noreferrer">
+          <a
+            href={nft.metadata.external_url}
+            target="_blank"
+            rel="noreferrer"
+            className="text-muted-foreground break-all"
+          >
             {nft.metadata.external_url}
           </a>
         </div>
@@ -91,7 +97,12 @@ export default function NftDetail({
       {nft.metadata.animation_url && (
         <div>
           <h2 className="text-lg font-medium">Animation URL</h2>
-          <a href={nft.metadata.animation_url} target="_blank" rel="noreferrer">
+          <a
+            href={nft.metadata.animation_url}
+            target="_blank"
+            rel="noreferrer"
+            className="text-muted-foreground break-all"
+          >
             {nft.metadata.animation_url}
           </a>
         </div>

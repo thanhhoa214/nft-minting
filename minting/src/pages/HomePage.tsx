@@ -12,8 +12,10 @@ export default function HomePage() {
           <p>
             <strong>Phenon</strong>
           </p>
-          <h2 className="text-3xl font-semibold">Create your own NFT</h2>
-          <p className="text-white/60">
+          <h2 className="text-xl md:text-3xl font-semibold">
+            Create your own NFT
+          </h2>
+          <p className="text-sm md:text-base text-white/60">
             The world's leading NFT marketplace for your awesome artworks.
           </p>
           <div className="mt-4 space-x-2">
