@@ -149,7 +149,7 @@ export default function MintPage() {
           className="flex flex-col gap-12 md:flex-row"
         >
           <div className="space-y-5 md:w-1/2">
-            <h2 className="text-2xl font-semibold mb-4">Metadata</h2>
+            <h2 className="text-xl md:text-2xl font-semibold mb-4">Metadata</h2>
 
             <FormField
               control={form.control}
@@ -275,7 +275,7 @@ export default function MintPage() {
             </FormItem>
           </div>
           <div className="space-y-5 md:w-1/2">
-            <h2 className="text-2xl font-semibold mb-4">
+            <h2 className="text-xl md:text-2xl font-semibold mb-4">
               Make your NFT more accessible
             </h2>
 
