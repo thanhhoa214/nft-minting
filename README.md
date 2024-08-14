@@ -12,11 +12,11 @@ https://github.com/thanhhoa214/nft-minting/blob/b8f820539e44f08f9f405d9b3e5ba786
 <p align="middle">
   
 <img src="https://github.com/thanhhoa214/nft-minting/blob/b8f820539e44f08f9f405d9b3e5ba786c91f83d0/minting/demo/home.jpeg" alt="Home"/>
+<img width="1337" alt="Screenshot 2024-06-01 at 14 44 39" src="https://github.com/thanhhoa214/nft-minting/assets/32329202/4b8f02c9-2451-4314-9b3e-a49be451b941">
+<img width="1337" alt="Screenshot 2024-06-01 at 14 45 07" src="https://github.com/thanhhoa214/nft-minting/assets/32329202/cdd22d8c-719a-4bdd-be8c-cb229b7c4383">
 <img src="https://github.com/thanhhoa214/nft-minting/assets/32329202/0365dab9-a58a-4986-862f-46a8d3e6a89d" alt="NFT Listing"/>
 <img src="https://github.com/thanhhoa214/nft-minting/assets/32329202/3f3d39c1-1e12-4bdd-b324-bd913b4e1ed1" alt="Transfer"/>
 <img src="https://github.com/thanhhoa214/nft-minting/blob/b8f820539e44f08f9f405d9b3e5ba786c91f83d0/minting/demo/mint.jpeg" alt="Mint"/>
-<img width="1337" alt="Screenshot 2024-06-01 at 14 44 39" src="https://github.com/thanhhoa214/nft-minting/assets/32329202/4b8f02c9-2451-4314-9b3e-a49be451b941">
-<img width="1337" alt="Screenshot 2024-06-01 at 14 45 07" src="https://github.com/thanhhoa214/nft-minting/assets/32329202/cdd22d8c-719a-4bdd-be8c-cb229b7c4383">
 
 
 </p>
